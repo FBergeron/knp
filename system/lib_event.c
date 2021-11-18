@@ -9,7 +9,7 @@
 
 #include "knp.h"
 
-DBM_FILE	event_db;
+extern DBM_FILE	event_db;
 int		EventDicExist;
 
 /*==================================================================*/

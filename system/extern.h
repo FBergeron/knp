@@ -24,9 +24,9 @@ extern int		BGHExist;
 extern int		SMExist;
 extern int		SM2CODEExist;
 extern int		SMP2SMGExist;
-DBM_FILE		sm_db;
-DBM_FILE		sm2code_db;
-DBM_FILE		smp2smg_db;
+extern DBM_FILE		sm_db;
+extern DBM_FILE		sm2code_db;
+extern DBM_FILE		smp2smg_db;
 
 extern SENTENCE_DATA	sentence_data[];
 extern SENTENCE_DATA	current_sentence_data;
@@ -156,8 +156,8 @@ extern int		CurDpndRuleSize;
 extern BnstRule		ContRuleArray[];
 extern int 		ContRuleSize;
 
-void			*EtcRuleArray;
-int			CurEtcRuleSize;
+extern void			*EtcRuleArray;
+extern int			CurEtcRuleSize;
 
 extern char 		*Case_name[];
 extern char		*ETAG_name[];

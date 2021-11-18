@@ -127,8 +127,8 @@ int             sen_num;
 int             is_frag;
 
 /* DB file for Chinese dpnd rule */
-DBM_FILE chi_dpnd_db;
-int     CHIDpndExist;
+extern DBM_FILE chi_dpnd_db;
+extern int     CHIDpndExist;
 
 /* Server Client Extention */
 static int	sfd, fd;
@@ -146,7 +146,7 @@ char *Case_name[] = {
 		"ト格", "ヨリ格", "ヘ格", "マデ格", "ノ格",
 		"ガ２", ""};
 
-char 		*ProgName;
+extern char 		*ProgName;
 extern FILE	*Jumanrc_Fileptr;
 extern CLASS    Class[CLASSIFY_NO + 1][CLASSIFY_NO + 1];
 extern TYPE     Type[TYPE_NO];
