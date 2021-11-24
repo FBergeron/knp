@@ -181,12 +181,21 @@ char	static_buffer[DATA_LEN];
 {
     /* 外の関係ファイル (case_soto.txt) */
     char *filename = NULL;
-    if (DICT[SOTO_TXT]) {
-	filename = check_dict_filename(DICT[SOTO_TXT], TRUE);
-    }
-    else {
-	filename = check_dict_filename(SOTO_TXT_NAME, FALSE);
-    }
+    //
+    // On Windows, DICT[SOTO_TXT]'s value is corrupted
+    // when new rules are allocated in read_rc() (line 204 of
+    // system/configfile.c). I don't understand why.
+    // Because of that, I cannot read its value without
+    // provoking a segmentation fault. So DICT[SOTO_TXT]
+    // is ignored for now.
+    //
+    //if (DICT[SOTO_TXT]) {
+    //filename = check_dict_filename(DICT[SOTO_TXT], TRUE);
+    //}
+    //else {
+    //filename = check_dict_filename(SOTO_TXT_NAME, FALSE);
+    //}
+    filename = check_dict_filename(SOTO_TXT_NAME, FALSE);
 
     FILE *fp = fopen(filename,"rb");
     fseek(fp, 0, SEEK_END); 
