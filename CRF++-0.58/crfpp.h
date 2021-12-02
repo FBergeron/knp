@@ -22,10 +22,10 @@ extern "C" {
 #ifdef _WIN32
 #include <windows.h>
 #  ifdef DLL_EXPORT
-#    define CRFPP_DLL_EXTERN  __declspec(dllexport)
-#    define CRFPP_DLL_CLASS_EXTERN  __declspec(dllexport)
+#    define CRFPP_DLL_EXTERN
+#    define CRFPP_DLL_CLASS_EXTERN
 #  else
-#    define CRFPP_DLL_EXTERN  __declspec(dllimport)
+#    define CRFPP_DLL_EXTERN
 #  endif
 #endif
 
