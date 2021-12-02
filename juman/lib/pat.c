@@ -28,7 +28,7 @@
 #endif
 
 #if defined _WIN32 && ! defined __CYGWIN__
-typedef char *	caddr_t;
+typedef char *  caddr_t;
 #endif
 
 #include "juman_pat.h"
@@ -38,8 +38,8 @@ typedef char *	caddr_t;
 th_hash_node hash_array[HASH_SIZE];
 #endif
 
-pat_node tree_top[MAX_DIC_NUMBER]; /* 木のねっこ♪ 辞書の数だけ使う */
-FILE *dic_file[MAX_DIC_NUMBER]; /* 木のもとデータ(辞書ファイル) */
+extern pat_node tree_top[MAX_DIC_NUMBER]; /* 木のねっこ♪ 辞書の数だけ使う */
+extern FILE *dic_file[MAX_DIC_NUMBER]; /* 木のもとデータ(辞書ファイル) */
 
 static struct _dic_t {
   int used;
@@ -129,8 +129,8 @@ pat_node *pat_search(FILE *f, char *key, pat_node *x_ptr, char *rslt)
     if(ptr->checkbit%SIKII_BIT==0 && ptr->checkbit!=0){ /* 途中単語を探す */
       tmp_x_ptr = ptr;
       do { /* 左部分木の一番左のノードを調べる． */
-	tmp_ptr = tmp_x_ptr;
-	tmp_x_ptr = tmp_x_ptr->left;
+    tmp_ptr = tmp_x_ptr;
+    tmp_x_ptr = tmp_x_ptr->left;
       } while(tmp_ptr->checkbit < tmp_x_ptr->checkbit);
 
       /* ハッシュをチェック */
@@ -138,18 +138,18 @@ pat_node *pat_search(FILE *f, char *key, pat_node *x_ptr, char *rslt)
       strtok(buffer,"\t"); /* 最初の '\t' を '\0' にする．*/
       /* bufferの先頭の「見出し語」部分だけでマッチングを行なう */
       if(strncmp(key,buffer,ptr->checkbit/8) == 0) { /* 見つけた */
-	totyu_match_len = ptr->checkbit/8; /* 途中でマッチしたPrefixの文字数 */
-	tmp_l_ptr = &(tmp_x_ptr->il); /* 全リスト要素の取り出し */
-	while(tmp_l_ptr != NULL){
-	  in_hash = hash_check_proc(f,tmp_l_ptr->index,buffer);
-	  r = pat_strcpy(r, buffer);
-	  *r++ = '\n';
-	  *r = '\0';
+    totyu_match_len = ptr->checkbit/8; /* 途中でマッチしたPrefixの文字数 */
+    tmp_l_ptr = &(tmp_x_ptr->il); /* 全リスト要素の取り出し */
+    while(tmp_l_ptr != NULL){
+      in_hash = hash_check_proc(f,tmp_l_ptr->index,buffer);
+      r = pat_strcpy(r, buffer);
+      *r++ = '\n';
+      *r = '\0';
 
-	  tmp_l_ptr = tmp_l_ptr->next;
-	}
+      tmp_l_ptr = tmp_l_ptr->next;
+    }
       } else { /* 途中で失敗を発見 */
-	return x_ptr;
+    return x_ptr;
       }
     }
 
@@ -173,15 +173,15 @@ pat_node *pat_search(FILE *f, char *key, pat_node *x_ptr, char *rslt)
     /* bufferの先頭の「見出し語」部分だけでマッチングを行なう */
     if(strncmp(key,buffer,tmp_len) == 0){ /* いきどまり単語のPrefixチェック */
       if(totyu_match_len != key_length){ /* 新登場の単語か否かのチェック */
-	tmp_l_ptr = &(x_ptr->il); /* 全リスト要素の取り出し */
-	while(tmp_l_ptr != NULL){
-	  in_hash = hash_check_proc(f,tmp_l_ptr->index,buffer);
-	  r = pat_strcpy(r, buffer);
-	  *r++ = '\n';
-	  *r = '\0';
+    tmp_l_ptr = &(x_ptr->il); /* 全リスト要素の取り出し */
+    while(tmp_l_ptr != NULL){
+      in_hash = hash_check_proc(f,tmp_l_ptr->index,buffer);
+      r = pat_strcpy(r, buffer);
+      *r++ = '\n';
+      *r = '\0';
 
-	  tmp_l_ptr = tmp_l_ptr->next;
-	}
+      tmp_l_ptr = tmp_l_ptr->next;
+    }
       }
     }
   }
@@ -321,14 +321,14 @@ void pat_insert(FILE *f,char *line, long index, pat_node *x_ptr, char *kugiri)
       tmp_l_ptr = &(t_ptr->il);
 
       while(tmp_l_ptr !=NULL){
-	in_hash = hash_check_proc(f,tmp_l_ptr->index,buffer);
-	if(strcmp(buffer,line)==0){
-	  /* 全く同じのがあるので挿入せずにリターン */
-/*	  printf("%s: 全く同じのがあるので無視\n",buffer);*/
-	  return;
-	}
-	mae_wo_sasu_ptr = tmp_l_ptr;
-	tmp_l_ptr = tmp_l_ptr->next;
+    in_hash = hash_check_proc(f,tmp_l_ptr->index,buffer);
+    if(strcmp(buffer,line)==0){
+      /* 全く同じのがあるので挿入せずにリターン */
+/*    printf("%s: 全く同じのがあるので無視\n",buffer);*/
+      return;
+    }
+    mae_wo_sasu_ptr = tmp_l_ptr;
+    tmp_l_ptr = tmp_l_ptr->next;
       }  /* この時点で tmp_l_ptr はリストの末尾を指す */
 
       /* 既にあるキーに内容をさらに挿入する */
@@ -461,19 +461,19 @@ char *get_line(FILE *f, long pos){
   if (oldf != ffd){
     for (i = 0; i < MAX_DIC_NUMBER; i++){
       if (ffd == dicinfo[i].fd && dicinfo[i].used){
-	oldf = dicinfo[i].fd;
-	addr = dicinfo[i].addr;
-	size = dicinfo[i].size;
-	break;
+    oldf = dicinfo[i].fd;
+    addr = dicinfo[i].addr;
+    size = dicinfo[i].size;
+    break;
       }
       if (dicinfo[i].used == 0){
-	dicinfo[i].fd   = ffd;
-	dicinfo[i].used = 1;
-	fstat(dicinfo[i].fd, &st);
-	dicinfo[i].size = size = st.st_size;
-	dicinfo[i].addr = addr = mmap(NULL, dicinfo[i].size, PROT_READ,
-				      MAP_PRIVATE, dicinfo[i].fd, 0);
-	break;
+    dicinfo[i].fd   = ffd;
+    dicinfo[i].used = 1;
+    fstat(dicinfo[i].fd, &st);
+    dicinfo[i].size = size = st.st_size;
+    dicinfo[i].addr = addr = mmap(NULL, dicinfo[i].size, PROT_READ,
+                      MAP_PRIVATE, dicinfo[i].fd, 0);
+    break;
       }
     }
     if (i == MAX_DIC_NUMBER){
@@ -494,8 +494,8 @@ char *get_line(FILE *f, long pos){
       char *a = addr + pos;
       i = 0;
       while (*a && *a != '\n') {
-	  *b++ = *a++;
-	  i++;
+      *b++ = *a++;
+      i++;
       }
       *b = '\0';
   }
@@ -512,7 +512,7 @@ char *get_line(FILE *f, long pos){
     if(fseek(f, pos, 0) == 0){
       static char buf[2000];
       if(NULL == fgets(buf,sizeof(buf),f))
-	return NULL;
+    return NULL;
       return buf;
     }
     else return NULL; /* seek 失敗 */
@@ -577,11 +577,11 @@ void show_pat(pat_node *top_ptr, FILE *out_to, char *prefix)
       show_pat(top_ptr->left,out_to,prefix);}
     else {
       if(top_ptr->left->il_ptr != NULL) {
-	strcpy(word, get_line(dic_file[0],top_ptr->left->il_ptr->index));
-	strtok(word,"\t");
-	OL(word:)OS(word);
-	strcpy(pftmp,(word+strlen(prefix)));
-	OL(keep:)OS(pftmp);
+    strcpy(word, get_line(dic_file[0],top_ptr->left->il_ptr->index));
+    strtok(word,"\t");
+    OL(word:)OS(word);
+    strcpy(pftmp,(word+strlen(prefix)));
+    OL(keep:)OS(pftmp);
 
 /*
     printf("#@# %i\n",strlen(word));
@@ -590,10 +590,10 @@ void show_pat(pat_node *top_ptr, FILE *out_to, char *prefix)
     top_ptr->left->str = (char*)malloc(strlen(word)+1);
     strcpy(top_ptr->left->str,word);
 */
-	top_ptr->left->str = (char*)malloc(strlen(pftmp)+1);
-	strcpy(top_ptr->left->str,pftmp);
+    top_ptr->left->str = (char*)malloc(strlen(pftmp)+1);
+    strcpy(top_ptr->left->str,pftmp);
 
-	OS(word);
+    OS(word);
       }
     }
 

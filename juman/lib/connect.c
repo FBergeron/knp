@@ -1,7 +1,7 @@
 /*
 ==============================================================================
-	connect.c
-		1990/12/17/Mon	Yutaka MYOKI(Nagao Lab., KUEE)
+    connect.c
+        1990/12/17/Mon  Yutaka MYOKI(Nagao Lab., KUEE)
 ==============================================================================
 */
 
@@ -9,41 +9,41 @@
 #include <config.h>
 #endif
 
-#include	"juman.h"
+#include    "juman.h"
 
 /*
 ------------------------------------------------------------------------------
-	definition of global variables
+    definition of global variables
 ------------------------------------------------------------------------------
 */
 
-extern char		CurPath[FILENAME_MAX];
-extern char		JumanPath[FILENAME_MAX];
+char        CurPath[FILENAME_MAX];
+char        JumanPath[FILENAME_MAX];
 
 /*
 ------------------------------------------------------------------------------
-	GLOBAL:
-	definition of global variables
+    GLOBAL:
+    definition of global variables
 ------------------------------------------------------------------------------
 */
 
-extern char	*ProgName;
-extern CLASS	Class[CLASSIFY_NO + 1][CLASSIFY_NO + 1];
-extern TYPE	Type[TYPE_NO];
-extern FORM	Form[TYPE_NO][FORM_NO];
+extern char *ProgName;
+extern CLASS    Class[CLASSIFY_NO + 1][CLASSIFY_NO + 1];
+extern TYPE Type[TYPE_NO];
+extern FORM Form[TYPE_NO][FORM_NO];
 
 /*
 ------------------------------------------------------------------------------
-	LOCAL:
-	definition of global variables
+    LOCAL:
+    definition of global variables
 ------------------------------------------------------------------------------
 */
 
 static int             TBL_NUM;          /* 連接表のサイズ */
 static int             I_NUM;            /* 連接行列の行   */
 static int             J_NUM;            /* 連接行列の列   */
-RENSETU_PAIR	       *rensetu_tbl;
-U_CHAR	               *rensetu_mtr;
+RENSETU_PAIR           *rensetu_tbl;
+U_CHAR                 *rensetu_mtr;
 
 /*
 ------------------------------------------------------------------------------
@@ -54,9 +54,9 @@ U_CHAR	               *rensetu_mtr;
 void connect_table(FILE *fp_out)
 {
 
-     FILE	*fp;
-     char	tablefile_path[FILENAME_MAX];
-     char	*prog_basename = NULL;
+     FILE   *fp;
+     char   tablefile_path[FILENAME_MAX];
+     char   *prog_basename = NULL;
 
      getpath(CurPath, JumanPath);
 
@@ -71,26 +71,26 @@ void connect_table(FILE *fp_out)
     }
 
      while (1) {
-	  if ( (fp = pathfopen(TABLEFILE, "r", ""     , tablefile_path))
-	      != NULL )	break;
-	  if ( (fp = pathfopen(TABLEFILE, "r", CurPath, tablefile_path))
-	      != NULL ) break;
-	  if ( prog_basename && strcmp(prog_basename, "juman") && (fp = pathfopen(TABLEFILE, "r", "../dic/", tablefile_path)) /* for compilation (program is not juman) */
-	      != NULL ) break;
-	  if ( (fp = pathfopen(TABLEFILE, "r", JumanPath, tablefile_path))
-	      != NULL ) break;
-	  error(OpenError, "can't open", TABLEFILE, ".", EOA);
+      if ( (fp = pathfopen(TABLEFILE, "r", ""     , tablefile_path))
+          != NULL ) break;
+      if ( (fp = pathfopen(TABLEFILE, "r", CurPath, tablefile_path))
+          != NULL ) break;
+      if ( prog_basename && strcmp(prog_basename, "juman") && (fp = pathfopen(TABLEFILE, "r", "../dic/", tablefile_path)) /* for compilation (program is not juman) */
+          != NULL ) break;
+      if ( (fp = pathfopen(TABLEFILE, "r", JumanPath, tablefile_path))
+          != NULL ) break;
+      error(OpenError, "can't open", TABLEFILE, ".", EOA);
      }
 
      if (fp_out != NULL) {
-	  print_current_time(fp_out);
-	  fprintf(fp_out, "%s parsing... ", tablefile_path);
+      print_current_time(fp_out);
+      fprintf(fp_out, "%s parsing... ", tablefile_path);
      }
 
      read_table(fp);
 
      if (fp_out != NULL)
-	  fputs("done.\n\n", fp_out);
+      fputs("done.\n\n", fp_out);
 
      fclose(fp);
 }
@@ -105,8 +105,8 @@ void read_table(FILE *fp)
      rensetu_tbl = (RENSETU_PAIR *)my_alloc(sizeof(RENSETU_PAIR) * TBL_NUM);
 
      for ( i=0; i<TBL_NUM; i++ ) {
-	  fscanf(fp, "%d", &(rensetu_tbl[i].i_pos));
-	  fscanf(fp, "%d", &(rensetu_tbl[i].j_pos));
+      fscanf(fp, "%d", &(rensetu_tbl[i].i_pos));
+      fscanf(fp, "%d", &(rensetu_tbl[i].j_pos));
 
           fscanf(fp, "%d", &(rensetu_tbl[i].hinsi));
           fscanf(fp, "%d", &(rensetu_tbl[i].bunrui));
@@ -166,8 +166,8 @@ int check_table_for_undef(int hinsi, int bunrui)
      for ( i=0; i<TBL_NUM; i++ )
        if ( rensetu_tbl[i].hinsi == hinsi &&
             rensetu_tbl[i].bunrui == bunrui &&
-	    rensetu_tbl[i].goi == NULL ) {
-	    return i;
+        rensetu_tbl[i].goi == NULL ) {
+        return i;
        }
      return -1;
 }
@@ -182,29 +182,29 @@ int check_table_for_undef(int hinsi, int bunrui)
 void connect_matrix(FILE *fp_out)
 {
 
-     FILE	*fp;
-     char	matrixfile_path[FILENAME_MAX];
+     FILE   *fp;
+     char   matrixfile_path[FILENAME_MAX];
 
      getpath(CurPath, JumanPath);
      while (1) {
-	  if ( (fp = pathfopen(MATRIXFILE, "r", ""     , matrixfile_path))
-	      != NULL )	break;
-	  if ( (fp = pathfopen(MATRIXFILE, "r", CurPath, matrixfile_path))
-	      != NULL ) break;
-	  if ( (fp = pathfopen(MATRIXFILE, "r", JumanPath, matrixfile_path))
-	      != NULL ) break;
-	  error(OpenError, "can't open", MATRIXFILE, ".", EOA);
+      if ( (fp = pathfopen(MATRIXFILE, "r", ""     , matrixfile_path))
+          != NULL ) break;
+      if ( (fp = pathfopen(MATRIXFILE, "r", CurPath, matrixfile_path))
+          != NULL ) break;
+      if ( (fp = pathfopen(MATRIXFILE, "r", JumanPath, matrixfile_path))
+          != NULL ) break;
+      error(OpenError, "can't open", MATRIXFILE, ".", EOA);
      }
 
      if (fp_out != NULL) {
-	  print_current_time(fp_out);
-	  fprintf(fp_out, "%s parsing... ", matrixfile_path);
+      print_current_time(fp_out);
+      fprintf(fp_out, "%s parsing... ", matrixfile_path);
      }
 
      read_matrix(fp);
 
      if (fp_out != NULL)
-	  fputs("done.\n\n", fp_out);
+      fputs("done.\n\n", fp_out);
 
      fclose(fp);
 }
@@ -220,9 +220,9 @@ void read_matrix(FILE *fp)
 
      for ( i=0; i<I_NUM; i++ )
        for ( j=0; j<J_NUM; j++ ) {
-	    if ( fscanf(fp, "%d", &num) == EOF )
-	      error(OtherError, "No entry in matrix !!", EOA);
-	    rensetu_mtr[i*J_NUM +j] = (char)num;
+        if ( fscanf(fp, "%d", &num) == EOF )
+          error(OtherError, "No entry in matrix !!", EOA);
+        rensetu_mtr[i*J_NUM +j] = (char)num;
        }
 }
 
@@ -232,7 +232,7 @@ int check_matrix(int postcon, int precon)
        return DEFAULT_C_WEIGHT;
 
      return ((int)rensetu_mtr[ rensetu_tbl[postcon].i_pos * J_NUM
-			       + rensetu_tbl[precon].j_pos ]);
+                   + rensetu_tbl[precon].j_pos ]);
 }
 
 /* その連語に特有の左連接規則が記述されているか */
@@ -242,8 +242,8 @@ int check_matrix_left(int precon)
 
     if (precon == -1) return FALSE;
     for (i = 0 ; i < I_NUM ; i++)
-	if ((int)rensetu_mtr[ i * J_NUM
-			       + rensetu_tbl[precon].j_pos ]) return TRUE;
+    if ((int)rensetu_mtr[ i * J_NUM
+                   + rensetu_tbl[precon].j_pos ]) return TRUE;
     return FALSE;
 }
 
@@ -254,7 +254,7 @@ int check_matrix_right(int postcon)
 
     if (postcon == -1) return FALSE;
     for (j = 0 ; j < J_NUM ; j++)
-	if ((int)rensetu_mtr[ rensetu_tbl[postcon].i_pos * J_NUM
-			       + j ]) return TRUE;
+    if ((int)rensetu_mtr[ rensetu_tbl[postcon].i_pos * J_NUM
+                   + j ]) return TRUE;
     return FALSE;
 }
