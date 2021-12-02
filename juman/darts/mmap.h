@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #endif
 
-#if !defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32) || defined(__CYGWIN__)
 namespace {
 int c_open(const char* name, int flag) { return open(name, flag); }
 int c_close(int fd) { return close(fd); }
@@ -67,7 +67,7 @@ class Mmap {
         hMapping = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
         if (!hMapping)
             return false;
-        mem = (unsigned char *)MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
+        mem = (char *)MapViewOfFile(hMapping, FILE_MAP_READ, 0, 0, 0);
         CloseHandle(hMapping);
         if (!mem)
             return false;
