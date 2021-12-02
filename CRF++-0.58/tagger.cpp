@@ -755,7 +755,7 @@ const char* TaggerImpl::toString() {
       if (!next()) {
         break;
       }
-      os_ << "# " << n << " " << prob() << '\n';
+      os_ << "# " << (unsigned int)n << prob() << '\n';
       PRINT;
     }
   } else {
