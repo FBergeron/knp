@@ -16,6 +16,7 @@ std::vector<Mmap *> darts_dbs;
 #define DAFILE "jumandic.da"
 #define BINFILE "jumandic.bin"
 
+typedef char *  caddr_t;
 static struct _dic_t {
   int used;
   int fd;
