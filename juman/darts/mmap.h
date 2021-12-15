@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #endif
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if !defined(_WIN32) || defined(_WIN32) || defined(__CYGWIN__)
 namespace {
 int c_open(const char* name, int flag) { return open(name, flag); }
 int c_close(int fd) { return close(fd); }

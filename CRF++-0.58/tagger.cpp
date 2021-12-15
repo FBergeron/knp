@@ -755,7 +755,11 @@ const char* TaggerImpl::toString() {
       if (!next()) {
         break;
       }
+#ifdef _WIN32
       os_ << "# " << (unsigned int)n << prob() << '\n';
+#else
+      os_ << "# " << n << prob() << '\n';
+#endif
       PRINT;
     }
   } else {
